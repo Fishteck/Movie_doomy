@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.activity.MainActivity"
     android:background="@color/colorFragmentsBackground">
-    <fragment
+    <FrameLayout
         android:id="@+id/activity_main__content_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:name="android.example.moviedoomy.presentation.view.fragments.NewMoviesFragment"
         android:background="@color/colorFragmentsBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

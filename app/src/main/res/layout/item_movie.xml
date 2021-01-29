@@ -9,7 +9,7 @@
     android:layout_margin="10dp">
     <ImageView
         android:id="@+id/item_movie__poster"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="150dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,15 +17,31 @@
         />
     <TextView
         android:id="@+id/item_movie__title"
-        android:layout_width="wrap_content"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/item_movie__poster"
         app:layout_constraintBottom_toTopOf="@+id/item_movie__genres"
         android:layout_marginStart="10dp"
         tools:text="Title"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:maxLines="1"
+        android:ellipsize="end"
+       />
+    <TextView
+        android:id="@+id/item_movie__original_title"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/item_movie__title"
+        app:layout_constraintStart_toEndOf="@+id/item_movie__poster"
+        app:layout_constraintBottom_toTopOf="@+id/item_movie__genres"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:text="Original title"
+        android:textSize="16sp"
         android:textColor="@android:color/white"/>
     <TextView
         android:id="@+id/item_movie__genres"
@@ -36,7 +52,7 @@
         app:layout_constraintBottom_toTopOf="@+id/item_movie__rating"
         android:layout_marginStart="10dp"
         tools:text="Genres"
-        android:textSize="19sp"
+        android:textSize="16sp"
         android:textColor="@android:color/white"/>
     <TextView
         android:id="@+id/item_movie__rating"
@@ -49,6 +65,7 @@
         tools:text="Rating"
         android:textSize="16sp"
         android:textColor="@android:color/white"/>
+
     <TextView
         android:id="@+id/item_movie__rating_quantity"
         android:layout_width="wrap_content"
@@ -56,9 +73,22 @@
         app:layout_constraintTop_toBottomOf="@id/item_movie__genres"
         app:layout_constraintStart_toEndOf="@+id/item_movie__rating"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         tools:text="Quantity"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/item_movie__rating_release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/item_movie__genres"
+        app:layout_constraintStart_toEndOf="@+id/item_movie__rating_quantity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="5dp"
+        tools:text="date"
         android:textSize="16sp"
         android:textColor="@android:color/white"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

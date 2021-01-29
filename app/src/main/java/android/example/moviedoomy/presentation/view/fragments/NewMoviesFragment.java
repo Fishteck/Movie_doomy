@@ -23,7 +23,9 @@ import java.util.List;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
+
 public class NewMoviesFragment extends Fragment {
+    public static final String TAG = "NewMoviesListFragment";
     private MovieListViewModel viewModel;
     private RecyclerView recyclerView;
     private MoviesNewRecyclerAdapter adapter;
@@ -35,6 +37,7 @@ public class NewMoviesFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_new_movies, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecycler();
@@ -42,10 +45,13 @@ public class NewMoviesFragment extends Fragment {
         viewModel = ViewModelProviders.of(getActivity()).get(MovieListViewModel.class);
         viewModel.getMovies().observe(getViewLifecycleOwner(), movies -> adapter.setMovies(movies));
         viewModel.onRestartGetMovies();
+
     }
 
     private void initRecycler() {
-        adapter = new MoviesNewRecyclerAdapter(LayoutInflater.from(getContext()));
+        adapter = new MoviesNewRecyclerAdapter(LayoutInflater.from(getContext()), id -> {
+            viewModel.onMovieClick(id);
+        });
         recyclerView = getView().findViewById(R.id.fragment_new_movies_recycler_view);
         recyclerView.setAdapter(adapter);
     }
@@ -54,10 +60,11 @@ public class NewMoviesFragment extends Fragment {
 
         public ImageView imageViewPoster;
         public TextView textViewTitle;
-        public TextView textViewPremierDate;
         public TextView textViewRating;
         public TextView textViewQuantityRating;
-        //public TextView textViewGenres;
+        public TextView textViewReleaseDate;
+        public TextView textViewGenres;
+        public TextView textViewOriginalTitle;
 
         public MoviesNewRecyclerHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +72,11 @@ public class NewMoviesFragment extends Fragment {
             textViewTitle = itemView.findViewById(R.id.item_movie__title);
             textViewRating = itemView.findViewById(R.id.item_movie__rating);
             textViewQuantityRating = itemView.findViewById(R.id.item_movie__rating_quantity);
+            textViewReleaseDate = itemView.findViewById(R.id.item_movie__rating_release_date);
+            textViewGenres = itemView.findViewById(R.id.item_movie__genres);
+            textViewOriginalTitle = itemView.findViewById(R.id.item_movie__original_title);
+
+
         }
     }
 
@@ -72,9 +84,12 @@ public class NewMoviesFragment extends Fragment {
 
         private List<Movie> movies = new ArrayList<>();
         private LayoutInflater inflater;
+        private OnMovieSelectedListener listener;
 
-        public MoviesNewRecyclerAdapter(LayoutInflater inflater) {
+        public MoviesNewRecyclerAdapter(LayoutInflater inflater, OnMovieSelectedListener listener) {
+
             this.inflater = inflater;
+            this.listener = listener;
         }
 
         public void setMovies(List<Movie> movies) {
@@ -91,15 +106,18 @@ public class NewMoviesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MoviesNewRecyclerHolder holder, int position) {
-            // TODO привязку к вьюхам
             final Movie movie = movies.get(position);
 
+            holder.itemView.setOnClickListener(v -> listener.onMovieSelect(movie.getId()+""));
             Picasso.get()
                     .load(movie.getPoster())
                     .transform(new RoundedCornersTransformation(15, 0, RoundedCornersTransformation.CornerType.ALL))
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(holder.imageViewPoster);
             holder.textViewTitle.setText(movie.getTitle());
+            holder.textViewReleaseDate.setText(movie.getReleaseDate());
+            holder.textViewGenres.setText(movie.getGenre());
+            holder.textViewOriginalTitle.setText(movie.getOriginalTitle());
             if (movie.getRating() == 0) {
                 holder.textViewRating.setText("0");
             } else  holder.textViewRating.setText(String.format("%.1f",movie.getRating()));
@@ -112,6 +130,10 @@ public class NewMoviesFragment extends Fragment {
         @Override
         public int getItemCount() {
             return movies.size();
+        }
+
+        public interface OnMovieSelectedListener {
+            void onMovieSelect(String id);
         }
     }
 }
